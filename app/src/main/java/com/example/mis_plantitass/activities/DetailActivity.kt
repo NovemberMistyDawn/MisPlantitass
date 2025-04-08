@@ -58,6 +58,8 @@ class DetailActivity : AppCompatActivity() {
 
     fun getRetrofit(): PlantService {
         val retrofit = Retrofit.Builder()
+
+            //CAMBIAR URL ESTA MAL
             .baseUrl("https://perenual.com/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()

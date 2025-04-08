@@ -2,6 +2,7 @@ package com.example.mis_plantitass.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     lateinit var adapter: PlantsAdapter
 
+
+    //esto tiene que tener la lista recibida de la Api
     var plantsList: List<Plant> = listOf()
 
 
@@ -45,14 +48,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter = PlantsAdapter(plantsList) { position ->
-            val superhero =
+            val plant =
                 plantsList[position]  // Obtiene el superhéroe según la posición seleccionada.
 
             // Crea un Intent para abrir una nueva actividad con los detalles del superhéroe.
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra(
                 "PLANT_ID",
-                superhero.id
+                plant.id
             )  // Pasa el ID del superhéroe a la actividad de detalle.
             startActivity(intent)  // Inicia la actividad de detalle.
         }
@@ -61,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = GridLayoutManager(this, 2)  // Usa un GridLayout con 2 columnas.
 
         // Llama a la función para buscar plantas que contengan la letra "a".
-        // searchPlantsByName("a")
+        searchPlantsByName("a")
 
     }
 
@@ -94,6 +97,8 @@ class MainActivity : AppCompatActivity() {
 
     fun getRetrofit(): PlantService{
         val retrofit = Retrofit.Builder()
+
+            //CAMBIAR URL ESTA MAL
             .baseUrl("https://perenual.com/api/v2/")  // URL base de la API.
             .addConverterFactory(GsonConverterFactory.create())  // Usamos Gson para convertir la respuesta JSON en objetos.
             .build()
@@ -107,20 +112,42 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val service = getRetrofit()  // Obtiene el servicio Retrofit para la API.
-                val result = service.findPlantsByQuery(query)  // Llama a la API con la consulta proporcionada.
+                val result = service.findPlantsByQuery(query, "sk-aVN467f395a2d696a9647") // Llama a la API con el 'query' como parámetro.
 
-                val filteredPlants = result.results.filter {
-                    it.scientific_name.contains(query, ignoreCase = true)
-                } // Almacena los resultados de la búsqueda en la lista de superhéroes.
+                // Verifica si 'result' o 'result.results' son nulos
+                if (result?.results != null && result.results.isNotEmpty()) {
+                    Log.d("API_RESPONSE", "Resultados encontrados: ${result.results.size}")
 
-                plantsList = filteredPlants
-                // Lanza una corutina en el hilo principal para actualizar la interfaz de usuario.
-                CoroutineScope(Dispatchers.Main).launch {
-                    adapter.items = plantsList  // Actualiza los elementos del adaptador con la lista de superhéroes.
-                    adapter.notifyDataSetChanged()  // Notifica al adaptador que los datos han cambiado.
+                    // Muestra todos los nombres comunes de las plantas obtenidas
+                    result.results.forEach {
+                        Log.d("API_RESPONSE", "Planta: ${it.common_name}")
+                    }
+
+                    // Filtra las plantas que contienen el 'query' (sin usar contains)
+                    val filteredPlants = result.results.filter {
+                        // Compara directamente el nombre común y científico con la consulta
+                        it.common_name.lowercase().startsWith(query.lowercase()) ||
+                                it.scientific_name.lowercase().startsWith(query.lowercase())
+                    }
+
+                    Log.d("API_RESPONSE", "Plantas filtradas: ${filteredPlants.size}")
+
+                    // Actualiza la lista de plantas
+                    plantsList = filteredPlants
+
+                    // Lanza una corutina en el hilo principal para actualizar la interfaz de usuario
+                    CoroutineScope(Dispatchers.Main).launch {
+                        adapter.items = plantsList  // Actualiza los elementos del adaptador con las plantas filtradas
+                        adapter.notifyDataSetChanged()  // Notifica al adaptador que los datos han cambiado
+                    }
+                } else {
+                    // Si no hay resultados o es null, maneja el caso aquí
+                    Log.d("API_RESPONSE", "No se encontraron resultados en la API.")
+                    plantsList = listOf()  // Si no se encuentran plantas, vacía la lista
                 }
             } catch (e: Exception) {
-                e.printStackTrace()  // Si ocurre un error, lo imprime en la consola.
+                e.printStackTrace()
+                Log.e("API_ERROR", "Error al realizar la búsqueda: ${e.message}")
             }
         }
     }
