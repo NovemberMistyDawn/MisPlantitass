@@ -3,7 +3,6 @@ package com.example.mis_plantitass.data
 class MyPlant (
     val id: Long,
     val common_name: String,
-    val scientific_name: String
 ){
 
     companion object {

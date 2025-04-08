@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val service = getRetrofit()  // Obtiene el servicio Retrofit para la API.
-                val result = service.findPlantsByQuery(query, "sk-aVN467f395a2d696a9647") // Llama a la API con el 'query' como parámetro.
+                val result = service.findPlantsByQuery(query, "sk-sCUk67f500f7c4bc19647") // Llama a la API con el 'query' como parámetro.
 
                 // Verifica si 'result' o 'result.results' son nulos
                 if (result?.results != null && result.results.isNotEmpty()) {
