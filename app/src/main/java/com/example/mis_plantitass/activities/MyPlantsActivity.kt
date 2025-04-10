@@ -50,6 +50,14 @@ class MyPlantsActivity : AppCompatActivity() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+
+
+        binding.addPlantButton.setOnClickListener {
+            // Abre la actividad de añadir planta
+            val intent = Intent(this, AddPlantActivity::class.java)
+            startActivity(intent)
+        }
+
         refreshData()
 
     }

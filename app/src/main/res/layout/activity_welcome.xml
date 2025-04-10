@@ -11,8 +11,8 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¡Bienvenido!"
-        android:textSize="32sp"
+        android:text="¡Bienvenido/a!"
+        android:textSize="42sp"
         android:padding="10dp"
         android:gravity="center"
         />
@@ -20,9 +20,9 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="¿A qué esperas? Empecemos ya"
+        android:text="¿Qué tal se encuentran hoy tus plantas?"
         android:padding="10dp"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:gravity="center"
         />
 
@@ -30,7 +30,9 @@
         android:id="@+id/btnBuscarPlantas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:padding="15dp"
+        android:textSize="20sp"
         android:text="Búsqueda de plantas"
         />
 
@@ -38,7 +40,8 @@
         android:id="@+id/btnMisPlantas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="15dp"
+        android:textSize="20sp"
         android:text="Mis Plantas"
         />
 
