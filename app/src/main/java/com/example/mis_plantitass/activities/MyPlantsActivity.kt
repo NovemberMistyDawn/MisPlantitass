@@ -87,8 +87,8 @@ class MyPlantsActivity : AppCompatActivity() {
         val task = myplantsList[position]
 
         AlertDialog.Builder(this)
-            .setTitle("Delete task")
-            .setMessage("Are you sure you want to delete this task?")
+            .setTitle("Eliminar planta")
+            .setMessage("Estás seguro de querer eliminar esta planta?")
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 myplantDAO.delete(task)
                 refreshData()
