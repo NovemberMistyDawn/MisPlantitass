@@ -21,7 +21,10 @@ class MyPlantsActivity : AppCompatActivity() {
     lateinit var myplantsList: List<MyPlant>
     lateinit var binding: ActivityMyPlantsBinding
     lateinit var myplantDAO: MyPlantDAO
+
+
     lateinit var adapter: myplantsAdapter
+
     companion object {
         const val PLANT_ID = "PLANT_ID"
     }
@@ -41,12 +44,13 @@ class MyPlantsActivity : AppCompatActivity() {
 
 
        myplantDAO = MyPlantDAO(DatabaseManager(this))
-        refreshData()
+
 
         adapter = myplantsAdapter(emptyList(), ::editPlant, ::deletePlant)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
+        refreshData()
 
     }
 

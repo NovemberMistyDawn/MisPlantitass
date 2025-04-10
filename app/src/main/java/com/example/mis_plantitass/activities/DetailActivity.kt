@@ -12,6 +12,8 @@ import com.example.mis_plantitass.databinding.ActivityDetailBinding
 import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import android.widget.Toast
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -49,17 +51,18 @@ class DetailActivity : AppCompatActivity() {
 
     }
 
-    fun loadData(){
-
-        Picasso.get().load(plant.default_image.url).into(binding.pictureImageView)
+    fun loadData() {
+        // Asegúrate de que plant esté inicializado
+        plant?.let {
+            Picasso.get().load(it.default_image?.regular_url).into(binding.pictureImageView)
+        }
     }
-
 
 
     fun getRetrofit(): PlantService {
         val retrofit = Retrofit.Builder()
 
-            //CAMBIAR URL ESTA MAL
+
             .baseUrl("https://perenual.com/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -67,18 +70,34 @@ class DetailActivity : AppCompatActivity() {
     }
 
 
-    fun getPlantById(id: Int){
+    fun getPlantById(id: Int) {
         CoroutineScope(Dispatchers.IO).launch {
+
             try {
                 val service = getRetrofit()  // Obtiene el servicio Retrofit.
-                plant = service.findPlantById(id)  // Llama a la API para obtener el superhéroe con el ID.
+                val result = service.findPlantById(id)  // Llama a la API para obtener la planta con el ID.
 
-                // Lanza una corutina en el hilo principal para actualizar la UI.
-                CoroutineScope(Dispatchers.Main).launch {
-                    loadData()  // Llama a la función para cargar los datos del superhéroe en la UI.
+                val plantFromApi = result
+
+                // Si no se obtiene la planta, muestra un mensaje de error en el hilo principal.
+                if (plantFromApi != null) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        plant = plantFromApi
+                        loadData()  // Carga los datos en la UI.
+                    }
+                } else {
+                    // Muestra el Toast en el hilo principal si la planta no se encuentra.
+                    CoroutineScope(Dispatchers.Main).launch {
+                        Toast.makeText(this@DetailActivity, "Planta no encontrada", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
-                e.printStackTrace()  // Si ocurre un error, lo imprime en la consola.
+                e.printStackTrace()
+
+                // Asegúrate de que el Toast se ejecute en el hilo principal
+                CoroutineScope(Dispatchers.Main).launch {
+                    Toast.makeText(this@DetailActivity, "Error al cargar los datos", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }

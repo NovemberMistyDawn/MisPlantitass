@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -15,9 +16,12 @@ import com.example.mis_plantitass.R
 import com.example.mis_plantitass.data.Plant
 import com.example.mis_plantitass.data.PlantService
 import com.example.mis_plantitass.databinding.ActivityMainBinding
+import com.google.gson.Gson
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -61,13 +65,13 @@ class MainActivity : AppCompatActivity() {
         }
         // Configura el RecyclerView con el adaptador y el LayoutManager.
         binding.recyclerView.adapter = adapter  // Asocia el adaptador con el RecyclerView.
-        binding.recyclerView.layoutManager = GridLayoutManager(this, 2)  // Usa un GridLayout con 2 columnas.
+        binding.recyclerView.layoutManager =
+            GridLayoutManager(this, 2)  // Usa un GridLayout con 2 columnas.
 
         // Llama a la función para buscar plantas que contengan la letra "a".
         searchPlantsByName("a")
 
     }
-
 
 
     // Este metodo se ejecuta cuando se crea el menú de opciones.
@@ -86,16 +90,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                // Ejecuta la búsqueda mientras el usuario escribe
-                searchPlantsByName(newText ?: "")
-                return true
+                return false
             }
         })
 
         return true  // Devuelve verdadero para que el menú se muestre.
     }
 
-    fun getRetrofit(): PlantService{
+    fun getRetrofit(): PlantService {
         val retrofit = Retrofit.Builder()
 
             //CAMBIAR URL ESTA MAL
@@ -106,48 +108,39 @@ class MainActivity : AppCompatActivity() {
         return retrofit.create(PlantService::class.java)  // Crea el servicio para interactuar con la API.
     }
 
-    // Esta función busca superhéroes por nombre.
+    // Esta función busca plantas por nombre.
     fun searchPlantsByName(query: String) {
-        // Lanza una corutina en el hilo de entrada/salida (IO) para realizar la búsqueda en segundo plano.
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                val service = getRetrofit()  // Obtiene el servicio Retrofit para la API.
-                val result = service.findPlantsByQuery(query, "sk-sCUk67f500f7c4bc19647") // Llama a la API con el 'query' como parámetro.
+                Log.d("API_REQUEST", "Buscando plantas con el query: $query")
 
-                // Verifica si 'result' o 'result.results' son nulos
-                if (result?.results != null && result.results.isNotEmpty()) {
-                    Log.d("API_RESPONSE", "Resultados encontrados: ${result.results.size}")
+                val service = getRetrofit()
+                val result = service.findPlantsByQuery(query, 1, "sk-sCUk67f500f7c4bc19647")
 
-                    // Muestra todos los nombres comunes de las plantas obtenidas
-                    result.results.forEach {
-                        Log.d("API_RESPONSE", "Planta: ${it.common_name}")
-                    }
+                // Comprobar la respuesta cruda para ver cómo se deserializa
+                val gson = Gson()
+                val jsonResponse = gson.toJson(result)
+                Log.d("API_RAW_RESPONSE", "Respuesta cruda de la API: $jsonResponse")
 
-                    // Filtra las plantas que contienen el 'query' (sin usar contains)
-                    val filteredPlants = result.results.filter {
-                        // Compara directamente el nombre común y científico con la consulta
-                        it.common_name.lowercase().startsWith(query.lowercase()) ||
-                                it.scientific_name.lowercase().startsWith(query.lowercase())
-                    }
-
-                    Log.d("API_RESPONSE", "Plantas filtradas: ${filteredPlants.size}")
-
-                    // Actualiza la lista de plantas
-                    plantsList = filteredPlants
-
-                    // Lanza una corutina en el hilo principal para actualizar la interfaz de usuario
-                    CoroutineScope(Dispatchers.Main).launch {
-                        adapter.items = plantsList  // Actualiza los elementos del adaptador con las plantas filtradas
-                        adapter.notifyDataSetChanged()  // Notifica al adaptador que los datos han cambiado
+                // Verificar si hay datos en la respuesta
+                if (result != null && result.data.isNotEmpty()) {
+                    Log.d("API_RESPONSE", "Plantas encontradas: ${result.data.size}")
+                    withContext(Dispatchers.Main) {
+                        plantsList = result.data
+                        adapter.updateData(plantsList)  // Actualizamos el adaptador
                     }
                 } else {
-                    // Si no hay resultados o es null, maneja el caso aquí
-                    Log.d("API_RESPONSE", "No se encontraron resultados en la API.")
-                    plantsList = listOf()  // Si no se encuentran plantas, vacía la lista
+                    Log.d("API_RESPONSE", "No se encontraron resultados")
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@MainActivity, "No se encontraron plantas", Toast.LENGTH_SHORT).show()
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                Log.e("API_ERROR", "Error al realizar la búsqueda: ${e.message}")
+                Log.e("API_ERROR", "Error en la llamada a la API: ${e.message}")
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MainActivity, "Error al buscar plantas", Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
