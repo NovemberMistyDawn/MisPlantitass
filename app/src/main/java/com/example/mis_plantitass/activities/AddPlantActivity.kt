@@ -26,8 +26,9 @@ class AddPlantActivity  : AppCompatActivity() {
             val plantName = binding.editTextPlantName.text.toString()
 
             if (plantName.isNotEmpty()) {
-                // Creamos un objeto MyPlant con el nombre ingresado
-                val newPlant = MyPlant(id = 0, common_name = plantName)
+                // Creamos un objeto MyPlant con el nombre ingresado, ojo, tiene que incluir
+                //todos los parametros del objeto MyPlant
+                val newPlant = MyPlant(id = 0, common_name = plantName,regada = false)
 
                 // Insertamos la planta en la base de datos
                 myplantDAO.insert(newPlant)

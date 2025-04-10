@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Título de la planta -->
+    <TextView
+        android:id="@+id/plantNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Nombre de la Planta"
+        android:paddingBottom="16dp"/>
+
+    <!-- Descripción del estado de la planta -->
+    <TextView
+        android:id="@+id/plantStatusTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Estado: Sin regar"
+        android:paddingBottom="16dp"/>
+
+    <!-- CheckBox o Switch para marcar si está regada -->
+    <CheckBox
+        android:id="@+id/plantWateredCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Planta regada"
+        android:padding="8dp"/>
+
+    <!-- Botón para guardar los cambios -->
+    <Button
+        android:id="@+id/savePlantStatusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar cambios"
+        android:layout_gravity="center"
+        android:padding="8dp"/>
+
+</LinearLayout>

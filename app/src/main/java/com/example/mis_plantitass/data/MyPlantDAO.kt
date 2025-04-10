@@ -13,20 +13,16 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
 
 
     fun insert(myplant: MyPlant) {
-        // Gets the data repository in write mode
         val db = databaseManager.writableDatabase
-
-        // Create a new map of values, where column names are the keys
         val values = ContentValues().apply {
             put(MyPlant.COLUMN_NAME_TITLE, myplant.common_name)
-            //put(MyPlant.COLUMN_NAME_REGADA, myplant.done)
+            put(MyPlant.COLUMN_NAME_REGADA, if (myplant.regada) 1 else 0)
         }
 
         try {
-            // Insert the new row, returning the primary key value of the new row
             val newRowId = db.insert(MyPlant.TABLE_NAME, null, values)
-
             Log.i("DATABASE", "Inserted plant with id: $newRowId")
+            myplant.id = newRowId  // Asegúrate de que el id se actualiza después de la inserción
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -41,7 +37,7 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
         // Create a new map of values, where column names are the keys
         val values = ContentValues().apply {
             put(MyPlant.COLUMN_NAME_TITLE, plant.common_name)
-            //put(Task.COLUMN_NAME_DONE, task.done)
+            put(MyPlant.COLUMN_NAME_REGADA, if (plant.regada) 1 else 0)
         }
 
         try {
@@ -98,9 +94,9 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
             if (cursor.moveToNext()) {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_ID))
                 val title = cursor.getString(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_TITLE))
+                val regada = cursor.getInt(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_REGADA)) == 1
 
-
-                plant = MyPlant(id, title)
+                plant = MyPlant(id, title,regada)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -136,9 +132,9 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_ID))
                 val title = cursor.getString(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_TITLE))
-                val done = cursor.getInt(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_REGADA)) != 0
+                val regada = cursor.getInt(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_REGADA)) != 0
 
-                val plant = MyPlant(id, title)
+                val plant = MyPlant(id, title,regada)
                 plantList.add(plant)
             }
         } catch (e: Exception) {

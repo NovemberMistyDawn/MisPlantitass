@@ -2,6 +2,7 @@ package com.example.mis_plantitass.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -76,8 +77,8 @@ class MyPlantsActivity : AppCompatActivity() {
 
     fun editPlant(position: Int) {
         val task = myplantsList[position]
-
-        val intent = Intent(this, MyPlantsActivity::class.java)
+        Log.d("DEBUG", "Pasando plantId: ${task.id}")  // Agrega un log para depurar
+        val intent = Intent(this, MyPlantDetailActivity::class.java)
         intent.putExtra(MyPlantsActivity.PLANT_ID, task.id)
         startActivity(intent)
     }
