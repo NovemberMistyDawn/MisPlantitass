@@ -9,6 +9,7 @@
     tools:context=".activities.WelcomeActivity">
 
     <TextView
+        android:id="@+id/textBienvenida"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¡Bienvenido/a!"
@@ -26,6 +27,28 @@
         android:gravity="center"
         />
 
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Ingresa tu nombre"
+        android:padding="10dp"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnGuardarNombre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guardar nombre"
+        android:backgroundTint="@android:color/white"
+        app:strokeColor="@color/green"
+        app:strokeWidth="2dp"
+        app:cornerRadius="32dp"
+        android:visibility="gone"
+        style="@style/Widget.Material3.Button.OutlinedButton" />
+
     <Button
         android:id="@+id/btnBuscarPlantas"
         android:layout_width="wrap_content"
@@ -33,6 +56,7 @@
         android:layout_marginTop="30dp"
         android:padding="15dp"
         android:textSize="20sp"
+        android:backgroundTint="@color/green"
         android:text="Búsqueda de plantas"
         />
 
@@ -42,6 +66,7 @@
         android:layout_height="wrap_content"
         android:padding="15dp"
         android:textSize="20sp"
+        android:backgroundTint="@color/green"
         android:text="Mis Plantas"
         />
 

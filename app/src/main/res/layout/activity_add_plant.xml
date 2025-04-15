@@ -29,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Guardar Planta"
+        android:backgroundTint="@color/green"
         android:layout_gravity="center"
         android:padding="10dp" />
 </LinearLayout>

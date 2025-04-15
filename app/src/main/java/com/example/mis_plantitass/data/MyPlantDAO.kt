@@ -10,19 +10,23 @@ import kotlin.text.insert
 
 class MyPlantDAO(private val databaseManager: DatabaseManager) {
 
-
-
     fun insert(myplant: MyPlant) {
         val db = databaseManager.writableDatabase
         val values = ContentValues().apply {
             put(MyPlant.COLUMN_NAME_TITLE, myplant.common_name)
             put(MyPlant.COLUMN_NAME_REGADA, if (myplant.regada) 1 else 0)
+            put("tienePlagas", if (myplant.tienePlagas) 1 else 0)
+            if (myplant.ultimaFechaRiego > 0L) {
+                put("ultimaFechaRiego", myplant.ultimaFechaRiego)
+            } else {
+                putNull("ultimaFechaRiego")
+            }
         }
 
         try {
             val newRowId = db.insert(MyPlant.TABLE_NAME, null, values)
             Log.i("DATABASE", "Inserted plant with id: $newRowId")
-            myplant.id = newRowId  // Asegúrate de que el id se actualiza después de la inserción
+            myplant.id = newRowId
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -31,19 +35,17 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
     }
 
     fun update(plant: MyPlant) {
-        // Gets the data repository in write mode
         val db = databaseManager.writableDatabase
-
-        // Create a new map of values, where column names are the keys
         val values = ContentValues().apply {
             put(MyPlant.COLUMN_NAME_TITLE, plant.common_name)
             put(MyPlant.COLUMN_NAME_REGADA, if (plant.regada) 1 else 0)
+            put("tienePlagas", if (plant.tienePlagas) 1 else 0)
+            put("ultimaFechaRiego", if (plant.ultimaFechaRiego > 0L) plant.ultimaFechaRiego else null)
         }
 
         try {
-            val updatedRows = db.update(MyPlant.TABLE_NAME, values, "${MyPlant.COLUMN_NAME_ID} = ${plant.id}", null)
-
-            Log.i("DATABASE", "Updated task with id: ${plant.id}")
+            db.update(MyPlant.TABLE_NAME, values, "${MyPlant.COLUMN_NAME_ID} = ?", arrayOf(plant.id.toString()))
+            Log.i("DATABASE", "Updated plant with id: ${plant.id}")
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -51,14 +53,11 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
         }
     }
 
-
-
     fun delete(plant: MyPlant) {
         val db = databaseManager.writableDatabase
 
         try {
-            val deletedRows = db.delete(MyPlant.TABLE_NAME, "${MyPlant.COLUMN_NAME_ID} = ${plant.id}", null)
-
+            db.delete(MyPlant.TABLE_NAME, "${MyPlant.COLUMN_NAME_ID} = ?", arrayOf(plant.id.toString()))
             Log.i("DATABASE", "Deleted plant with id: ${plant.id}")
         } catch (e: Exception) {
             e.printStackTrace()
@@ -73,31 +72,38 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
         val projection = arrayOf(
             MyPlant.COLUMN_NAME_ID,
             MyPlant.COLUMN_NAME_TITLE,
-            MyPlant.COLUMN_NAME_REGADA
+            MyPlant.COLUMN_NAME_REGADA,
+            "tienePlagas",
+            "ultimaFechaRiego"
         )
 
-        val selection = "${MyPlant.COLUMN_NAME_ID} = $id"
+        val selection = "${MyPlant.COLUMN_NAME_ID} = ?"
+        val selectionArgs = arrayOf(id.toString())
 
         var plant: MyPlant? = null
 
         try {
             val cursor = db.query(
-                MyPlant.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                selection,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                MyPlant.TABLE_NAME,
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                null
             )
 
             if (cursor.moveToNext()) {
-                val id = cursor.getLong(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_ID))
+                val plantId = cursor.getLong(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_ID))
                 val title = cursor.getString(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_TITLE))
                 val regada = cursor.getInt(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_REGADA)) == 1
-
-                plant = MyPlant(id, title,regada)
+                val tienePlagas = cursor.getInt(cursor.getColumnIndexOrThrow("tienePlagas")) == 1
+                val ultimaFechaIndex = cursor.getColumnIndexOrThrow("ultimaFechaRiego")
+                val ultimaFechaRiego =
+                    if (cursor.isNull(ultimaFechaIndex)) 0L else cursor.getLong(ultimaFechaIndex)
+                plant = MyPlant(plantId, title, regada, tienePlagas, ultimaFechaRiego)
             }
+            cursor.close()
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -113,30 +119,37 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
         val projection = arrayOf(
             MyPlant.COLUMN_NAME_ID,
             MyPlant.COLUMN_NAME_TITLE,
-            MyPlant.COLUMN_NAME_REGADA
+            MyPlant.COLUMN_NAME_REGADA,
+            "tienePlagas",
+            "ultimaFechaRiego"
         )
 
-        var plantList: MutableList<MyPlant> = mutableListOf()
+        val plantList = mutableListOf<MyPlant>()
 
         try {
             val cursor = db.query(
-                MyPlant.TABLE_NAME,   // The table to query
-                projection,             // The array of columns to return (pass null to get all)
-                null,              // The columns for the WHERE clause
-                null,          // The values for the WHERE clause
-                null,                   // don't group the rows
-                null,                   // don't filter by row groups
-                null               // The sort order
+                MyPlant.TABLE_NAME,
+                projection,
+                null,
+                null,
+                null,
+                null,
+                null
             )
 
             while (cursor.moveToNext()) {
                 val id = cursor.getLong(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_ID))
                 val title = cursor.getString(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_TITLE))
-                val regada = cursor.getInt(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_REGADA)) != 0
+                val regada = cursor.getInt(cursor.getColumnIndexOrThrow(MyPlant.COLUMN_NAME_REGADA)) == 1
+                val tienePlagas = cursor.getInt(cursor.getColumnIndexOrThrow("tienePlagas")) == 1
+                val ultimaFechaIndex = cursor.getColumnIndexOrThrow("ultimaFechaRiego")
+                val ultimaFechaRiego =
+                    if (cursor.isNull(ultimaFechaIndex)) 0L else cursor.getLong(ultimaFechaIndex)
 
-                val plant = MyPlant(id, title,regada)
+                val plant = MyPlant(id, title, regada, tienePlagas, ultimaFechaRiego)
                 plantList.add(plant)
             }
+            cursor.close()
         } catch (e: Exception) {
             e.printStackTrace()
         } finally {
@@ -145,5 +158,4 @@ class MyPlantDAO(private val databaseManager: DatabaseManager) {
 
         return plantList
     }
-
 }

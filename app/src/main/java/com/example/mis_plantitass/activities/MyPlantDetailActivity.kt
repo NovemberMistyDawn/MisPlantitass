@@ -8,13 +8,16 @@ import com.example.mis_plantitass.data.MyPlant
 import com.example.mis_plantitass.data.MyPlantDAO
 import com.example.mis_plantitass.databinding.ActivityMyPlantDetailBinding
 import com.example.mis_plantitass.utils.DatabaseManager
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class MyPlantDetailActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMyPlantDetailBinding
     lateinit var myplantDAO: MyPlantDAO
-    var plantId: Long = -1 // ID de la planta
-    lateinit var currentPlant: MyPlant
+    var plantId: Long = -1
+    var currentPlant: MyPlant? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,45 +25,77 @@ class MyPlantDetailActivity : AppCompatActivity() {
         binding = ActivityMyPlantDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializa el DAO
         myplantDAO = MyPlantDAO(DatabaseManager(this))
-
-        // Obtén el ID de la planta desde el Intent
         plantId = intent.getLongExtra(MyPlantsActivity.PLANT_ID, -1)
-        Log.d("DEBUG", "plantId: $plantId")
 
         if (plantId != -1L) {
-            Log.d("DEBUG", "Recibido plantId: $plantId") // 👈 Aquí el log
+            currentPlant = myplantDAO.findById(plantId)
 
-            // Obtén la planta desde la base de datos
-            currentPlant = myplantDAO.findById(plantId) ?: run {
+            if (currentPlant == null) {
                 Log.e("ERROR", "No se encontró planta con ID: $plantId")
                 finish()
                 return
             }
 
-            // Configura la interfaz con los datos de la planta
-            binding.plantNameTextView.text = currentPlant.common_name
-            binding.plantStatusTextView.text = if (currentPlant.regada) "Estado: Regada" else "Estado: No regada"
-            binding.plantWateredCheckBox.isChecked = currentPlant.regada
+            val ultimaFecha = currentPlant?.ultimaFechaRiego ?: 0L
+            val ahora = System.currentTimeMillis()
+            val dosDiasEnMillis = 2 * 24 * 60 * 60 * 1000L
 
-            // Configura el evento de guardar cambios
+            // Solo evaluar el estado si hay una fecha válida
+            if (ultimaFecha > 0L && (ahora - ultimaFecha > dosDiasEnMillis)) {
+                currentPlant?.regada = false
+            }
+
+            // Mostrar nombre y estado
+            binding.plantNameTextView.text = currentPlant?.common_name
+            binding.plantStatusTextView.text =
+                if (currentPlant?.regada == true) "Estado: Regada" else "Estado: No regada"
+
+            // Mostrar fecha solo si está marcada como regada
+            if (currentPlant?.regada == true && ultimaFecha > 0L) {
+                val sdf = SimpleDateFormat("dd 'de' MMMM 'de' yyyy", Locale.getDefault())
+                val fechaFormateada = sdf.format(Date(ultimaFecha))
+                binding.lastWateredTextView.text = "Último riego: $fechaFormateada"
+            } else {
+                binding.lastWateredTextView.text = "Último riego: —"
+            }
+
+            binding.plantWateredCheckBox.isChecked = currentPlant?.regada == true
+            binding.plagueCheckBox.isChecked = currentPlant?.tienePlagas == true
+
+            // Guardar cambios
             binding.savePlantStatusButton.setOnClickListener {
                 updatePlantStatus()
             }
+
+        } else {
+            Toast.makeText(this, "No se recibió una planta válida", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
-    // Actualiza el estado de la planta
     private fun updatePlantStatus() {
-        // Cambia el estado de la planta (si está regada)
-        currentPlant.regada = binding.plantWateredCheckBox.isChecked
+        currentPlant?.let { plant ->
+            // Actualizar el estado de la planta según los checkboxes
+            plant.regada = binding.plantWateredCheckBox.isChecked
+            plant.tienePlagas = binding.plagueCheckBox.isChecked
 
-        // Actualiza la planta en la base de datos
-        myplantDAO.update(currentPlant)
+            // SOLO actualiza la fecha de riego si el checkbox está marcado como regada
+            if (plant.regada) {
+                plant.ultimaFechaRiego = System.currentTimeMillis() // Si está regada, actualizamos la fecha
+            } else {
+                // Si no está regada, dejamos la fecha a 0L o la última fecha válida
+                plant.ultimaFechaRiego = 0L
+            }
 
-        // Muestra un mensaje de éxito y vuelve atrás
-        Toast.makeText(this, "Estado de la planta actualizado", Toast.LENGTH_SHORT).show()
-        finish()
+            // Actualizamos la base de datos
+            myplantDAO.update(plant)
+
+            // Depurar estado antes de finalizar
+            Log.d("DEBUG", "Estado de la planta actualizado. Fecha de riego: ${plant.ultimaFechaRiego}")
+
+            Toast.makeText(this, "Estado de la planta actualizado", Toast.LENGTH_SHORT).show()
+            finish() // Vuelves a la actividad anterior
+        }
     }
 }

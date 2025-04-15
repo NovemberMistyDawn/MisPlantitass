@@ -3,7 +3,9 @@ package com.example.mis_plantitass.data
 class MyPlant (
     var id: Long,
     val common_name: String,
-    var regada: Boolean
+    var regada: Boolean = false,
+    var tienePlagas: Boolean = false,
+    var ultimaFechaRiego:Long = 0L
 ){
 
     companion object {

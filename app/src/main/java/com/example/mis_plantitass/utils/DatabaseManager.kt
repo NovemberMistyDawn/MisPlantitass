@@ -9,13 +9,15 @@ import com.example.mis_plantitass.data.MyPlant
 class DatabaseManager(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 companion object{
     const val DATABASE_NAME = "myplants.db"
-    const val DATABASE_VERSION = 2
+    const val DATABASE_VERSION = 5
 
     private const val SQL_CREATE_TABLE_MYPLANTS =
         "CREATE TABLE ${MyPlant.TABLE_NAME} (" +
                 "${MyPlant.COLUMN_NAME_ID} INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "${MyPlant.COLUMN_NAME_TITLE} TEXT," +
-                "${MyPlant.COLUMN_NAME_REGADA} INTEGER)"
+                "${MyPlant.COLUMN_NAME_REGADA} INTEGER," +
+                "tienePlagas INTEGER," +
+                "ultimaFechaRiego INTEGER)"
 
     private const val SQL_DROP_TABLE_TASK = "DROP TABLE IF EXISTS ${MyPlant.TABLE_NAME}"
 

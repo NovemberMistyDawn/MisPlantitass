@@ -28,7 +28,8 @@ class AddPlantActivity  : AppCompatActivity() {
             if (plantName.isNotEmpty()) {
                 // Creamos un objeto MyPlant con el nombre ingresado, ojo, tiene que incluir
                 //todos los parametros del objeto MyPlant
-                val newPlant = MyPlant(id = 0, common_name = plantName,regada = false)
+                val newPlant = MyPlant(id = 0, common_name = plantName,regada = false,tienePlagas = false,
+                    ultimaFechaRiego = System.currentTimeMillis())
 
                 // Insertamos la planta en la base de datos
                 myplantDAO.insert(newPlant)
