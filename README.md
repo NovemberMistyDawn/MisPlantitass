@@ -24,7 +24,7 @@ que la planta ha sido guardada.
 
 -También incluye una tabla creada mediante SQLite, para guardar nuestras plantas y poder registrar sus cuidados.
 
--Accedemos a el API Rest de perenual y parseamos sus datos usando Gson y Retrofit.
+-Accedemos al API Rest de perenual y parseamos sus datos usando Gson y Retrofit.
 
 -Además, hacemos uso de dos Adapters en la aplicación, uno para la parte del diccionario de plantas, y otro para 
 el listado en el que registramos nuestras plantas.
