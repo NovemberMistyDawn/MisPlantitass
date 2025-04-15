@@ -2,13 +2,13 @@
 
 
 Se trata de una aplicación sencilla, cuyo objetivo es brindar a los usuarios la posibilidad de, por un lado
-registrar las necesidades de cuidado de sus plantas, como la fecha del último regado, y por otro lado, mediante
+registrar las necesidades de cuidado de sus plantas como la fecha del último regado, y por otro lado, mediante
 el acceso a la API de perenual.com, consultar dentro un listado de hasta 3.000 plantas, las necesidades específicas
 de cuidado de las plantas que le sean de interés. Hay que tener en cuenta las limitaciones de nuestro plan, que 
 es el gratuito, por lo que los datos de algunas plantas no serán accesibles.
 
 IMPORTANTE: Cuando cargamos la pantalla de búsqueda en el botón "Búsqueda de plantas", hay que esperar unos 5 segundos 
-para que nos aparezcan las plantas, debido a la gran cantidad de datos que necesita. Para realizar la búsqueda de plantas,
+para que nos empiecen a aparecer plantas, debido a la gran cantidad de datos que necesita. Para realizar la búsqueda de plantas,
 ha de escribirse o bien el nombre científico (el que está en latín) o en inglés. 
 
 
