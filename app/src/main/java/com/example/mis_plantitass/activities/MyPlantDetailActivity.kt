@@ -6,12 +6,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.mis_plantitass.data.MyPlant
 import com.example.mis_plantitass.data.MyPlantDAO
-import com.example.mis_plantitass.databinding.ItemMyPlantDetailBinding
+import com.example.mis_plantitass.databinding.ActivityMyPlantDetailBinding
 import com.example.mis_plantitass.utils.DatabaseManager
 
 class MyPlantDetailActivity : AppCompatActivity() {
 
-    lateinit var binding: ItemMyPlantDetailBinding
+    lateinit var binding: ActivityMyPlantDetailBinding
     lateinit var myplantDAO: MyPlantDAO
     var plantId: Long = -1 // ID de la planta
     lateinit var currentPlant: MyPlant
@@ -19,7 +19,7 @@ class MyPlantDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ItemMyPlantDetailBinding.inflate(layoutInflater)
+        binding = ActivityMyPlantDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Inicializa el DAO

@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:cardCornerRadius="32dp"
-        android:layout_marginTop="-32dp"
+        android:layout_marginTop="-202dp"
         android:layout_marginBottom="-32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,8 +37,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:menu="@menu/menu_activity_detail_navigation"/>
+            <TextView
+                android:id="@+id/careTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:text="Información de cuidados:"
+                android:lineSpacingExtra="6dp"/>
 
+            <!-- Agregar múltiples TextViews para cada sección de cuidado -->
+            <TextView
+                android:id="@+id/sunlightTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:text="Sunlight info here"
+                android:lineSpacingExtra="6dp"/>
 
+            <TextView
+                android:id="@+id/wateringTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:textSize="16sp"
+                android:textColor="@android:color/black"
+                android:text="Watering info here"
+                android:lineSpacingExtra="6dp"/>
 
         </LinearLayout>
 

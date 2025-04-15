@@ -12,7 +12,8 @@ class Plant (
     val common_name: String?,
     val scientific_name: List<String>?,  // Cambiado de String a List<String> porque en el JSON es un array
     val other_name: List<String>?,
-    val default_image: Image?
+    val default_image: Image?,
+    val care_guide: List<CareSection>
 
 )
 

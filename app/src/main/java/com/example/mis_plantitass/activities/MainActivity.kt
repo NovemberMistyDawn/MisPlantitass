@@ -52,17 +52,15 @@ class MainActivity : AppCompatActivity() {
         }
 
         adapter = PlantsAdapter(plantsList) { position ->
-            val plant =
-                plantsList[position]  // Obtiene el superhéroe según la posición seleccionada.
-
-            // Crea un Intent para abrir una nueva actividad con los detalles del superhéroe.
+            val plant = plantsList[position]
             val intent = Intent(this, DetailActivity::class.java)
-            intent.putExtra(
-                "PLANT_ID",
-                plant.id
-            )  // Pasa el ID del superhéroe a la actividad de detalle.
-            startActivity(intent)  // Inicia la actividad de detalle.
+            intent.putExtra("IMAGE_URL", plant.default_image?.original_url)
+            intent.putExtra("COMMON_NAME", plant.common_name)
+            intent.putExtra("PLANT_ID", plant.id)
+            startActivity(intent)
         }
+
+
         // Configura el RecyclerView con el adaptador y el LayoutManager.
         binding.recyclerView.adapter = adapter  // Asocia el adaptador con el RecyclerView.
         binding.recyclerView.layoutManager =

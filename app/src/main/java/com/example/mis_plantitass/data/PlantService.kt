@@ -19,7 +19,12 @@ interface PlantService {
         @Query("key") apiKey: String = "sk-sCUk67f500f7c4bc19647"
     ): PlantResponse
 
-    // Obtener planta por ID
+    // Obtener planta por ID, OJO CUIDADO!!! EL KEY TIENE QUE ESTAR SI O SI EN LA MAYORIA DE ESTAS FUNCIONES
+    //YA QUE SI NO, NOS DA ERROR
     @GET("species/details/{id}")
-    suspend fun findPlantById(@Path("id") id: Int): Plant
+    suspend fun findPlantById(@Path("id") id: Int,
+                              @Query("key") apiKey: String                   ): Plant
+
+
+
 }
