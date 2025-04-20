@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             tools:text="Nombre de la planta"
             android:textColor="@color/white"
+            android:fontFamily="@font/montserratregular"
             android:textSize="24sp"
             android:textStyle="bold"
             android:gravity="center"

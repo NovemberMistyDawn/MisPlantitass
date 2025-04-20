@@ -1,73 +1,96 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".activities.WelcomeActivity">
 
-    <TextView
-        android:id="@+id/textBienvenida"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="¡Bienvenido/a!"
-        android:textSize="42sp"
-        android:padding="10dp"
+    <!-- Imagen de fondo -->
+    <ImageView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_welcome" />
+
+    <!-- Contenido encima de la imagen -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:gravity="center"
-        />
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="¿Qué tal se encuentran hoy tus plantas?"
-        android:padding="10dp"
-        android:textSize="20sp"
-        android:gravity="center"
-        />
+        <TextView
+            android:id="@+id/textBienvenida"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¡Bienvenido/a!"
+            android:textColor="@android:color/white"
+            android:textSize="77sp"
+            android:padding="5dp"
+            android:fontFamily="@font/katibeh"
+            android:gravity="center" />
 
-    <EditText
-        android:id="@+id/editTextNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Ingresa tu nombre"
-        android:padding="10dp"
-        android:textSize="18sp"
-        android:visibility="gone" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserratregular"
+            android:text="¿Qué tal se encuentran hoy tus plantas?"
+            android:padding="10dp"
+            android:textSize="25sp"
+            android:textColor="@android:color/white"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/editTextNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Ingresa tu nombre"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnGuardarNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar nombre"
+            android:backgroundTint="@android:color/white"
+            app:strokeColor="@color/green"
+            app:strokeWidth="2dp"
+            app:cornerRadius="32dp"
+            android:visibility="gone"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
+        <Button
+            android:id="@+id/btnMisPlantas"
+            android:textColor="@color/green"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/montserratregular"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="20sp"
+            android:backgroundTint="@color/white"
+            android:text="Mis Plantas" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBuscarPlantas"
+            android:layout_marginTop="100dp"
+            android:layout_width="wrap_content"
+            android:fontFamily="@font/montserratregular"
+            android:layout_height="wrap_content"
+            android:text="Búsqueda de plantas"
+            android:textColor="@android:color/white"
+            app:strokeColor="@color/white"
+            android:textSize="20sp"
+            app:strokeWidth="2dp"
+            app:cornerRadius="32dp"
+
+            style="@style/Widget.Material3.Button.OutlinedButton" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnGuardarNombre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Guardar nombre"
-        android:backgroundTint="@android:color/white"
-        app:strokeColor="@color/green"
-        app:strokeWidth="2dp"
-        app:cornerRadius="32dp"
-        android:visibility="gone"
-        style="@style/Widget.Material3.Button.OutlinedButton" />
 
-    <Button
-        android:id="@+id/btnBuscarPlantas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:padding="15dp"
-        android:textSize="20sp"
-        android:backgroundTint="@color/green"
-        android:text="Búsqueda de plantas"
-        />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/btnMisPlantas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:textSize="20sp"
-        android:backgroundTint="@color/green"
-        android:text="Mis Plantas"
-        />
-
-</LinearLayout>
+</FrameLayout>

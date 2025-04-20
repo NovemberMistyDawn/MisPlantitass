@@ -10,7 +10,8 @@
         android:id="@+id/plantNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
+        android:textSize="44sp"
+        android:fontFamily="@font/katibeh"
         android:text="Nombre de la Planta"
         android:paddingBottom="16dp"/>
 
@@ -18,11 +19,13 @@
     <TextView
         android:id="@+id/plantStatusTextView"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/montserratregular"
         android:layout_height="wrap_content"
         android:text="Estado: Sin regar"
         android:paddingBottom="16dp"/>
     <TextView
         android:id="@+id/lastWateredTextView"
+        android:fontFamily="@font/montserratregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Último riego:"
@@ -33,6 +36,7 @@
     <CheckBox
         android:id="@+id/plantWateredCheckBox"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/montserratregular"
         android:layout_height="wrap_content"
         android:text="Planta regada"
         android:padding="8dp"
@@ -40,6 +44,7 @@
 
     <CheckBox
         android:id="@+id/plagueCheckBox"
+        android:fontFamily="@font/montserratregular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Control de Plagas"
@@ -49,6 +54,7 @@
     <Button
         android:id="@+id/savePlantStatusButton"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/montserratregular"
         android:layout_height="wrap_content"
         android:text="Guardar cambios"
         android:backgroundTint="@color/green"

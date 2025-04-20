@@ -1,39 +1,64 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical"
     tools:context=".activities.WelcomeActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mis Plantas"
-        android:textSize="32sp"
-        android:padding="10dp"
-        android:gravity="center"
-        />
-
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <!-- Fondo de pantalla -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:contentDescription="Lista de plantas" />
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_myplants" /> <!-- reemplazá por tu imagen real -->
 
-    <Button
-        android:id="@+id/addPlantButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:backgroundTint="@color/green"
-        android:text="Añadir Planta" />
+    <!-- Contenido encima -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="20dp">
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPlantButton"
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:layout_margin="24dp"
+            app:fabCustomSize="72dp"
+            app:fabSize="auto"
+            android:contentDescription="Añadir Planta"
+            app:backgroundTint="@color/green"
+            app:tint="@android:color/white"
+            app:srcCompat="@drawable/ic_add" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mis Plantas"
+            android:fontFamily="@font/katibeh"
+            android:textColor="@color/green"
+            android:textSize="72sp"
+            android:padding="10dp"
+            android:layout_gravity="start" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Aquellas plantas que aparezcan en azul, no han sido regadas
+todavía."
+            android:fontFamily="@font/montserratregular"
+            android:textSize="22sp"
+            android:padding="10dp"
+            android:layout_gravity="start" />
 
-</LinearLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:contentDescription="Lista de plantas" />
+    </LinearLayout>
+
+</FrameLayout>

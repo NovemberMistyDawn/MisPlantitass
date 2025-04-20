@@ -69,7 +69,7 @@ class DetailActivity : AppCompatActivity() {
         plant?.let {
             Picasso.get().load(it.default_image?.regular_url).into(binding.pictureImageView)
             // Aquí puedes asignar otros elementos si tienes, por ejemplo un TextView para el nombre:
-            binding.careTextView.text = it.common_name ?: "Sin nombre"
+            binding.plantNameDescription.text = it.common_name ?: "Sin nombre"
         }
     }
 

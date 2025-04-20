@@ -46,28 +46,32 @@
                     android:padding="16dp">
 
                     <TextView
-                        android:id="@+id/careTextView"
+                        android:id="@+id/plantNameDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:text="Información de cuidados:"
+                        android:textSize="56sp"
+                        android:fontFamily="@font/katibeh"
+                        android:textColor="@color/green"
+                        android:text="Nombre"
                         android:lineSpacingExtra="6dp" />
 
                     <TextView
                         android:id="@+id/sunlightTextView"
+                        android:fontFamily="@font/montserratregular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="19sp"
                         android:textColor="@android:color/black"
                         android:text="Sunlight info here"
                         android:lineSpacingExtra="6dp" />
 
                     <TextView
+                        android:layout_marginTop="20dp"
                         android:id="@+id/wateringTextView"
                         android:layout_width="match_parent"
+                        android:fontFamily="@font/montserratregular"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        android:textSize="19sp"
                         android:textColor="@android:color/black"
                         android:text="Watering info here"
                         android:lineSpacingExtra="6dp" />
