@@ -46,8 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Aquellas plantas que aparezcan en azul, no han sido regadas
-todavía."
+            android:text="Todas aquellas plantas que aparezcan en azul, no han sido regadas hoy."
             android:fontFamily="@font/montserratregular"
             android:textSize="22sp"
             android:padding="10dp"
