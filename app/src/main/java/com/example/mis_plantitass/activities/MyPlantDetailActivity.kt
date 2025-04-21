@@ -28,8 +28,15 @@ class MyPlantDetailActivity : AppCompatActivity() {
         myplantDAO = MyPlantDAO(DatabaseManager(this))
         plantId = intent.getLongExtra(MyPlantsActivity.PLANT_ID, -1)
 
+
+
+        //si el ID es -1, osea si el ID es valido,continuamos
         if (plantId != -1L) {
+
+            //Buscamos en la base de datos la planta con ese plantId usando un DAO (una clase que accede a la base de datos). El resultado se guarda en currentPlant
             currentPlant = myplantDAO.findById(plantId)
+
+
 
             if (currentPlant == null) {
                 Log.e("ERROR", "No se encontró planta con ID: $plantId")
