@@ -1,64 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    >
 
-    <!-- Título de la planta -->
-    <TextView
-        android:id="@+id/plantNameTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="44sp"
-        android:fontFamily="@font/katibeh"
-        android:text="Nombre de la Planta"
-        android:paddingBottom="16dp"/>
+    <!-- Imagen de fondo -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/background_myplants" />
 
-    <!-- Descripción del estado de la planta -->
-    <TextView
-        android:id="@+id/plantStatusTextView"
-        android:layout_width="wrap_content"
-        android:fontFamily="@font/montserratregular"
-        android:layout_height="wrap_content"
-        android:text="Estado: Sin regar"
-        android:paddingBottom="16dp"/>
-    <TextView
-        android:id="@+id/lastWateredTextView"
-        android:fontFamily="@font/montserratregular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Último riego:"
-        android:textSize="16sp"
-        android:layout_marginTop="5dp"/>
+    <!-- Contenedor principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <!-- CheckBox o Switch para marcar si está regada -->
-    <CheckBox
-        android:id="@+id/plantWateredCheckBox"
-        android:layout_width="wrap_content"
-        android:fontFamily="@font/montserratregular"
-        android:layout_height="wrap_content"
-        android:text="Planta regada"
-        android:padding="8dp"
-        android:layout_marginTop="25dp"/>
+        <!-- CardView blanco con todo el contenido -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="30dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@android:color/white"
+            android:padding="24dp">
 
-    <CheckBox
-        android:id="@+id/plagueCheckBox"
-        android:fontFamily="@font/montserratregular"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Control de Plagas"
-        android:padding="8dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="24dp"
+                android:orientation="vertical">
 
-    <!-- Botón para guardar los cambios -->
-    <Button
-        android:id="@+id/savePlantStatusButton"
-        android:layout_width="wrap_content"
-        android:fontFamily="@font/montserratregular"
-        android:layout_height="wrap_content"
-        android:text="Guardar cambios"
-        android:backgroundTint="@color/green"
-        android:layout_gravity="center"
-        android:padding="8dp"/>
+                <!-- Título de la planta -->
+                <TextView
+                    android:id="@+id/plantNameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="54sp"
+                    android:textColor="@color/green"
+                    android:fontFamily="@font/katibeh"
+                    android:text="Nombre de la Planta"
+                    android:paddingBottom="16dp" />
 
-</LinearLayout>
+                <!-- Estado en un CardView azul clarito -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="4dp"
+                    app:cardBackgroundColor="@color/lightBlue"
+                    android:layout_marginBottom="16dp">
+
+                    <TextView
+                        android:id="@+id/plantStatusTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserratregular"
+                        android:text="Estado: Sin regar"
+                        android:backgroundTint="@color/green"
+                        android:textStyle="bold"
+                        android:padding="12dp"
+                        android:textSize="16sp" />
+                </androidx.cardview.widget.CardView>
+
+                <!-- Último riego -->
+                <TextView
+                    android:id="@+id/lastWateredTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserratregular"
+                    android:text="Último riego:"
+                    android:textSize="16sp"
+                    android:layout_marginTop="5dp" />
+
+                <!-- CheckBoxes -->
+                <CheckBox
+                    android:id="@+id/plantWateredCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Planta regada"
+                    android:fontFamily="@font/montserratregular"
+                    android:padding="8dp"
+                    android:layout_marginTop="25dp" />
+
+                <CheckBox
+                    android:id="@+id/plagueCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Control de Plagas"
+                    android:fontFamily="@font/montserratregular"
+                    android:padding="8dp" />
+
+                <!-- Botón para guardar -->
+                <Button
+                    android:id="@+id/savePlantStatusButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guardar cambios"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/montserratregular"
+                    android:layout_gravity="center"
+                    android:padding="20dp"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/green"
+                    android:layout_marginTop="24dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</FrameLayout>
