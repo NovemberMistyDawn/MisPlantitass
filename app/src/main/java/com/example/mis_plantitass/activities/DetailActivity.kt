@@ -1,6 +1,11 @@
 package com.example.mis_plantitass.activities
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.AbsoluteSizeSpan
+import android.text.style.StyleSpan
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.R
@@ -111,10 +116,34 @@ class DetailActivity : AppCompatActivity() {
         for (section in guide.section) {
             when (section.type.lowercase()) {
                 "sunlight" -> {
-                    binding.sunlightTextView.text = "🔹 Sunlight\n${section.description}"
+                    // Modificamos el estilo para que "Sunlight" esté en negrita y más grande
+                    val title = "🔹 Sunlight"
+                    val description = section.description
+                    val styledText = SpannableString("$title\n$description")
+
+                    // Hacemos en negrita solo el título "Sunlight"
+                    styledText.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    // Aumentamos el tamaño del texto del título "Sunlight"
+                    styledText.setSpan(AbsoluteSizeSpan(24, true), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    // Asignamos el texto al TextView
+                    binding.sunlightTextView.text = styledText
                 }
                 "watering" -> {
-                    binding.wateringTextView.text = "🔹 Watering\n${section.description}"
+                    // Modificamos el estilo para que "Watering" esté en negrita y más grande
+                    val title = "🔹 Watering"
+                    val description = section.description
+                    val styledText = SpannableString("$title\n$description")
+
+                    // Hacemos en negrita solo el título "Watering"
+                    styledText.setSpan(StyleSpan(Typeface.BOLD), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    // Aumentamos el tamaño del texto del título "Watering"
+                    styledText.setSpan(AbsoluteSizeSpan(24, true), 0, title.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+                    // Asignamos el texto al TextView
+                    binding.wateringTextView.text = styledText
                 }
                 else -> {
                     Log.d("CareGuide", "Sección desconocida: ${section.type}")

@@ -3,6 +3,7 @@ package com.example.mis_plantitass.activities
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -23,6 +24,11 @@ class WelcomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_welcome)
+
+
+        val contentLayout = findViewById<View>(R.id.contentLayout)
+        val anim = AnimationUtils.loadAnimation(this, R.anim.fade_in_slide_up)
+        contentLayout.startAnimation(anim)
 
         // Referencias
         txtBienvenida = findViewById(R.id.textBienvenida) // tu TextView de bienvenida

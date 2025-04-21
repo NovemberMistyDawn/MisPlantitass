@@ -65,7 +65,7 @@
                         android:backgroundTint="@color/green"
                         android:textStyle="bold"
                         android:padding="12dp"
-                        android:textSize="16sp" />
+                        android:textSize="20sp" />
                 </androidx.cardview.widget.CardView>
 
                 <!-- Último riego -->
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/montserratregular"
                     android:text="Último riego:"
-                    android:textSize="16sp"
+                    android:textSize="20sp"
                     android:layout_marginTop="5dp" />
 
                 <!-- CheckBoxes -->
@@ -86,6 +86,7 @@
                     android:text="Planta regada"
                     android:fontFamily="@font/montserratregular"
                     android:padding="8dp"
+                    android:textSize="20sp"
                     android:layout_marginTop="25dp" />
 
                 <CheckBox
@@ -93,6 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Control de Plagas"
+                    android:textSize="20sp"
                     android:fontFamily="@font/montserratregular"
                     android:padding="8dp" />
 
