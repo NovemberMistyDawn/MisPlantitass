@@ -46,20 +46,33 @@
                 android:orientation="vertical"
                 android:gravity="center_horizontal">
 
-                <!-- Campo de texto -->
-                <EditText
-                    android:id="@+id/editTextPlantName"
+                <!-- TextInputLayout para la animación y accesibilidad -->
+                <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserratregular"
-                    android:hint="Nombre de la planta"
-                    android:padding="26dp"
-                    android:textSize="26sp"
                     android:layout_marginTop="30dp"
-                    android:background="@android:color/transparent"
+                    android:labelFor="@id/editTextPlantName"
+                    android:hint="Nombre de la planta"
+                    app:boxStrokeColor="@android:color/white"
                     android:textColor="@android:color/white"
-                    android:textColorHint="#80FFFFFF"
-                    android:layout_marginBottom="16dp" />
+                    android:textColorHint="@android:color/white"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeWidthFocused="2dp"
+                   >
+
+                    <EditText
+                        android:id="@+id/editTextPlantName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:fontFamily="@font/montserratregular"
+                        android:textSize="26sp"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/transparent"
+                        android:textColor="@android:color/white"
+                        android:textColorHint="@android:color/white"
+                        android:layout_marginBottom="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- CardView como botón estilizado -->
                 <androidx.cardview.widget.CardView
