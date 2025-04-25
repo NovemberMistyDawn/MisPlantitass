@@ -60,7 +60,7 @@
                     app:boxStrokeWidthFocused="2dp"
                    >
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPlantName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
